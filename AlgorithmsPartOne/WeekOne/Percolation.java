@@ -11,6 +11,10 @@ public class Percolation {
 
   // create n-by-n grid, with all sites blocked
   public Percolation(int n) {
+    if (n <= 0) {
+      throw new IllegalArgumentException();
+    }
+
     this.size = n;
     this.openedSites = 0;
     this.opened = new boolean[n][n];
@@ -22,6 +26,10 @@ public class Percolation {
 
   // open site (row, col) if it is not open already
   public void open(int row, int col) {
+    if (this.isInValidRowOrColumn(row, col)) {
+      throw new IllegalArgumentException();
+    }
+
     if (this.isOpen(row, col)) {
       return;
     }
@@ -38,7 +46,7 @@ public class Percolation {
     }
 
     // Bottom
-    if (col == this.size) {
+    if (row == this.size) {
       this.uf1.union(pos, bottom);
     }
 
@@ -69,11 +77,19 @@ public class Percolation {
 
   // is site (row, col) open?
   public boolean isOpen(int row, int col) {
+    if (this.isInValidRowOrColumn(row, col)) {
+      throw new IllegalArgumentException();
+    }
+
     return this.opened[row - 1][col - 1];
   }
 
   // is site (row, col) full?
   public boolean isFull(int row, int col) {
+    if (this.isInValidRowOrColumn(row, col)) {
+      throw new IllegalArgumentException();
+    }
+
     return this.uf2.connected(top, this.getPosition(row, col));
   }
 
@@ -85,6 +101,10 @@ public class Percolation {
   // does the system percolate?
   public boolean percolates() {
     return this.uf1.connected(top, bottom);
+  }
+
+  private boolean isInValidRowOrColumn(int row, int col) {
+    return row <= 0 || row > this.size || col <= 0 || col > this.size;
   }
 
   private int getPosition(int row, int col) {
