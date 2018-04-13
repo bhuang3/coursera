@@ -1,6 +1,6 @@
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
@@ -9,7 +9,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
   // construct an empty randomized queue
   public RandomizedQueue() {
-    this.items = (Item[])new Object[2];
+    this.items = (Item[]) new Object[2];
     this.count = 0;
   }
 
@@ -69,7 +69,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
   }
 
   private void resizeQueue(int size) {
-    Item[] newItems = (Item[])new Object[size];
+    Item[] newItems = (Item[]) new Object[size];
 
     for (int i = 0; i < this.count; i++) {
       newItems[i] = this.items[i];
