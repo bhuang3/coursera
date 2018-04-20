@@ -57,9 +57,9 @@ public class BruteCollinearPoints {
     }
   }
 
-  private void checkNull(Point[] points) {
-    for (int i = 0; i < points.length; i++) {
-      if (points[i] == null) {
+  private void checkNull(Point[] ps) {
+    for (int i = 0; i < ps.length; i++) {
+      if (ps[i] == null) {
         throw new IllegalArgumentException();
       }
     }
