@@ -3,8 +3,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class BruteCollinearPoints {
-  private Point[] points;
-  private List<LineSegment> segments;
+  private final Point[] points;
+  private final List<LineSegment> segments;
 
   // finds all line segments containing 4 points
   public BruteCollinearPoints(Point[] points) {
@@ -12,7 +12,9 @@ public class BruteCollinearPoints {
       throw new IllegalArgumentException();
     }
 
-    this.points = points;
+    this.checkNull(points);
+
+    this.points = points.clone();
     this.segments = new ArrayList<LineSegment>();
     this.findSegments();
   }
@@ -29,8 +31,7 @@ public class BruteCollinearPoints {
 
   private void findSegments() {
     Arrays.sort(this.points);
-
-    checkRepeat(this.points);
+    this.checkRepeat();
 
     double slope1 = 0.0;
     double slope2 = 0.0;
@@ -47,9 +48,7 @@ public class BruteCollinearPoints {
           for (int m = k + 1; m < size; m++) {
             slope3 = this.points[i].slopeTo(this.points[m]);
 
-            if (slope1 == Double.NEGATIVE_INFINITY || slope2 == Double.NEGATIVE_INFINITY || slope3 == Double.NEGATIVE_INFINITY) {
-              throw new IllegalArgumentException();
-            } else if (slope1 == slope2 && slope2 == slope3) {
+            if (slope1 == slope2 && slope2 == slope3) {
               this.segments.add(new LineSegment(this.points[i], this.points[m]));
             }
           }
@@ -58,8 +57,16 @@ public class BruteCollinearPoints {
     }
   }
 
-  private void checkRepeat(Point[] points) {
-    for (int i = 1; i < points.length; i++) {
+  private void checkNull(Point[] points) {
+    for (int i = 0; i < points.length; i++) {
+      if (points[i] == null) {
+        throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private void checkRepeat() {
+    for (int i = 1; i < this.points.length; i++) {
       if (points[i].compareTo(points[i - 1]) == 0) {
         throw new IllegalArgumentException();
       }
