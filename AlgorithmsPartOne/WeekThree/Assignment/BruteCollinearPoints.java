@@ -30,6 +30,8 @@ public class BruteCollinearPoints {
   private void findSegments() {
     Arrays.sort(this.points);
 
+    checkRepeat(this.points);
+
     double slope1 = 0.0;
     double slope2 = 0.0;
     double slope3 = 0.0;
@@ -52,6 +54,14 @@ public class BruteCollinearPoints {
             }
           }
         }
+      }
+    }
+  }
+
+  private void checkRepeat(Point[] points) {
+    for (int i = 1; i < points.length; i++) {
+      if (points[i].compareTo(points[i - 1]) == 0) {
+        throw new IllegalArgumentException();
       }
     }
   }

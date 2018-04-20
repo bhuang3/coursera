@@ -36,6 +36,8 @@ public class FastCollinearPoints {
   private void findSegments() {
     Arrays.sort(this.points);
 
+    checkRepeat(this.points);
+
     for (Point point : this.points) {
       List<Point> list = clonePoints(this.points);
       Collections.sort(list, point.slopeOrder());
@@ -44,8 +46,6 @@ public class FastCollinearPoints {
       Point start = list.get(1);
       double slope1 = point.slopeTo(start);
       double slope2 = 0.0;
-
-      // this.slopes.clear();
 
       for (int i = 2; i < list.size(); i++) {
         slope2 = point.slopeTo(list.get(i));
@@ -88,5 +88,13 @@ public class FastCollinearPoints {
     }
 
     return list;
+  }
+
+  private void checkRepeat(Point[] points) {
+    for (int i = 1; i < points.length; i++) {
+      if (points[i].compareTo(points[i - 1]) == 0) {
+        throw new IllegalArgumentException();
+      }
+    }
   }
 }
