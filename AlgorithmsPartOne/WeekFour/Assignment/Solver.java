@@ -104,9 +104,9 @@ public class Solver {
   }
 
   private class SearchNode {
-    private int moves;
-    private Board board;
-    private SearchNode parent;
+    private final int moves;
+    private final Board board;
+    private final SearchNode parent;
 
     private SearchNode(int moves, Board board, SearchNode parent) {
       this.moves = moves;

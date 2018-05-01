@@ -7,7 +7,6 @@ public class Board {
   private int manhattanPriority;
   private int emptyX;
   private int emptyY;
-  private String stringValue;
 
   // construct a board from an n-by-n array of blocks
   // (where blocks[i][j] = block in row i, column j)
@@ -119,43 +118,45 @@ public class Board {
 
   // string representation of this board (in the output format specified below)
   public String toString() {
-    return this.stringValue;
-  }
-
-  private void initBoard() {
-    int hamming = 0;
-    int manhattan = 0;
-    int n = this.blocks.length;
     StringBuilder sb = new StringBuilder();
 
     sb.append(n).append("\n");
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
+        sb.append(String.format("%2d ", this.blocks[i][j]));
+      }
+
+      sb.append("\n");
+    }
+
+    return sb.toString();
+  }
+
+  private void initBoard() {
+    int hamming = 0;
+    int manhattan = 0;
+    int n = this.blocks.length;
+
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
         int expect = i * n + j + 1;
         int actual = blocks[i][j] == 0 ? n * n : blocks[i][j];
-
-        sb.append(String.format("%2d ", this.blocks[i][j]));
 
         if (blocks[i][j] == 0) {
           emptyX = i;
           emptyY = j;
-        }
-
-        if (expect != actual) {
+        } else if (expect != actual) {
           int distance = Math.abs(actual - expect);
 
           hamming++;
           manhattan += distance / n + distance % n;
         }
       }
-
-      sb.append("\n");
     }
 
     this.hammingPriority = hamming;
     this.manhattanPriority = manhattan;
-    this.stringValue = sb.toString();
   }
 
   private int[][] cloneBlocks(int[][] b) {
