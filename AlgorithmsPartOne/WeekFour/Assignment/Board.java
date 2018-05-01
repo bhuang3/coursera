@@ -119,6 +119,7 @@ public class Board {
   // string representation of this board (in the output format specified below)
   public String toString() {
     StringBuilder sb = new StringBuilder();
+    int n = this.blocks.length;
 
     sb.append(n).append("\n");
 
