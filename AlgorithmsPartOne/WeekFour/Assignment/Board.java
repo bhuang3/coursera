@@ -69,6 +69,10 @@ public class Board {
 
     Board that = (Board) y;
 
+    if (this.blocks.length != that.blocks.length || this.blocks[0].length != that.blocks[0].length) {
+      return false;
+    }
+
     for (int i = 0; i < this.blocks.length; i++) {
       for (int j = 0; j < this.blocks.length; j++) {
         if (this.blocks[i][j] != that.blocks[i][j]) {
