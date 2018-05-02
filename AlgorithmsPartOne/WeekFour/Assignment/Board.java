@@ -142,16 +142,15 @@ public class Board {
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         int expect = i * n + j + 1;
-        int actual = blocks[i][j] == 0 ? n * n : blocks[i][j];
+        int actual = blocks[i][j];
 
         if (blocks[i][j] == 0) {
           emptyX = i;
           emptyY = j;
         } else if (expect != actual) {
-          int distance = Math.abs(actual - expect);
-
+          actual--;
           hamming++;
-          manhattan += distance / n + distance % n;
+          manhattan += Math.abs(actual / n - i) + Math.abs(actual % n - j);
         }
       }
     }
