@@ -29,6 +29,10 @@ public class KdTree {
       throw new IllegalArgumentException();
     }
 
+    if (this.contains(p)) {
+      return;
+    }
+
     this.root = this.insert(this.root, p);
     this.root.horizontal = false;
     this.count++;
@@ -139,13 +143,13 @@ public class KdTree {
       range(rect, node.child2, points);
     } else {
       if (node.horizontal) {
-        if (Double.compare(node.point.y(), rect.ymax()) > 0) {
+        if (Double.compare(node.point.y(), rect.ymax()) >= 0) {
           range(rect, node.child2, points);
         } else {
           range(rect, node.child1, points);
         }
       } else {
-        if (Double.compare(node.point.x(), rect.xmax()) > 0) {
+        if (Double.compare(node.point.x(), rect.xmax()) >= 0) {
           range(rect, node.child1, points);
         } else {
           range(rect, node.child2, points);
@@ -168,30 +172,30 @@ public class KdTree {
       return null;
     }
 
-    double min = p.distanceTo(node.point);
+    double min = p.distanceSquaredTo(node.point);
 
     if (node.horizontal) {
       if (Double.compare(node.point.y(), p.y()) > 0) {
         Point2D p2 = nearest(node.child2, p);
 
-        if (p2 != null && Double.compare(p.distanceTo(p2), min) < 0) {
+        if (p2 != null && Double.compare(p.distanceSquaredTo(p2), min) <= 0) {
           return p2;
         } else {
           Point2D p1 = nearest(node.child1, p);
 
-          if (p1 != null && Double.compare(p.distanceTo(p1), min) < 0) {
+          if (p1 != null && Double.compare(p.distanceSquaredTo(p1), min) <= 0) {
             return p1;
           }
         }
       } else {
         Point2D p1 = nearest(node.child1, p);
 
-        if (p1 != null && Double.compare(p.distanceTo(p1), min) < 0) {
+        if (p1 != null && Double.compare(p.distanceSquaredTo(p1), min) <= 0) {
           return p1;
         } else {
           Point2D p2 = nearest(node.child2, p);
 
-          if (p2 != null && Double.compare(p.distanceTo(p2), min) < 0) {
+          if (p2 != null && Double.compare(p.distanceSquaredTo(p2), min) <= 0) {
             return p2;
           }
         }
@@ -200,37 +204,35 @@ public class KdTree {
       if (Double.compare(node.point.x(), p.x()) > 0) {
         Point2D p1 = nearest(node.child1, p);
 
-        if (p1 != null && Double.compare(p.distanceTo(p1), min) < 0) {
+        if (p1 != null && Double.compare(p.distanceSquaredTo(p1), min) <= 0) {
           return p1;
         } else {
           Point2D p2 = nearest(node.child2, p);
 
-          if (p2 != null && Double.compare(p.distanceTo(p2), min) < 0) {
+          if (p2 != null && Double.compare(p.distanceSquaredTo(p2), min) <= 0) {
             return p2;
           }
         }
       } else {
         Point2D p2 = nearest(node.child2, p);
 
-        if (p2 != null && Double.compare(p.distanceTo(p2), min) < 0) {
+        if (p2 != null && Double.compare(p.distanceSquaredTo(p2), min) < 0) {
           return p2;
         } else {
           Point2D p1 = nearest(node.child1, p);
 
-          if (p1 != null && Double.compare(p.distanceTo(p1), min) < 0) {
+          if (p1 != null && Double.compare(p.distanceSquaredTo(p1), min) < 0) {
             return p1;
           }
         }
       }
-
-      return node.point;
     }
 
-    return p;
+    return node.point;
   }
 
   private class Node {
-    private Point2D point;
+    private final Point2D point;
     private boolean horizontal;
     private Node child1;
     private Node child2;

@@ -72,12 +72,12 @@ public class PointSET {
       throw new IllegalArgumentException();
     }
 
-    double min = Double.MAX_VALUE;
+    double min = Double.POSITIVE_INFINITY;
     double distance = 0;
     Point2D point = null;
 
     for (Point2D p : this.set) {
-      distance = p.distanceTo(that);
+      distance = p.distanceSquaredTo(that);
 
       if (Double.compare(distance, min) < 0) {
         min = distance;
