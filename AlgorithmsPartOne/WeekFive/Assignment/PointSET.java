@@ -41,6 +41,7 @@ public class PointSET {
 
   // draw all points to standard draw
   public void draw() {
+    StdDraw.clear();
     StdDraw.setPenRadius(0.01);
 
     for (Point2D p : this.set) {
