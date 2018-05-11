@@ -43,7 +43,7 @@ public class KdTree {
       return new Node(p);
     } else {
       if (node.horizontal) {
-        if (Double.compare(node.point.y(), p.y()) > 0) {
+        if (Double.compare(node.point.y(), p.y()) >= 0) {
           node.child2 = this.insert(node.child2, p);
           node.child2.horizontal = !node.horizontal;
         } else {
@@ -51,7 +51,7 @@ public class KdTree {
           node.child1.horizontal = !node.horizontal;
         }
       } else {
-        if (Double.compare(node.point.x(), p.x()) > 0) {
+        if (Double.compare(node.point.x(), p.x()) >= 0) {
           node.child1 = this.insert(node.child1, p);
           node.child1.horizontal = !node.horizontal;
         } else {
@@ -143,15 +143,19 @@ public class KdTree {
       range(rect, node.child2, points);
     } else {
       if (node.horizontal) {
-        if (Double.compare(node.point.y(), rect.ymax()) >= 0) {
+        if (Double.compare(node.point.y(), rect.ymin()) > 0) {
           range(rect, node.child2, points);
-        } else {
+        }
+
+        if (Double.compare(node.point.y(), rect.ymax()) < 0) {
           range(rect, node.child1, points);
         }
       } else {
-        if (Double.compare(node.point.x(), rect.xmax()) >= 0) {
+        if (Double.compare(node.point.x(), rect.xmin()) > 0) {
           range(rect, node.child1, points);
-        } else {
+        }
+
+        if (Double.compare(node.point.x(), rect.xmax()) < 0) {
           range(rect, node.child2, points);
         }
       }
@@ -216,12 +220,12 @@ public class KdTree {
       } else {
         Point2D p2 = nearest(node.child2, p);
 
-        if (p2 != null && Double.compare(p.distanceSquaredTo(p2), min) < 0) {
+        if (p2 != null && Double.compare(p.distanceSquaredTo(p2), min) <= 0) {
           return p2;
         } else {
           Point2D p1 = nearest(node.child1, p);
 
-          if (p1 != null && Double.compare(p.distanceSquaredTo(p1), min) < 0) {
+          if (p1 != null && Double.compare(p.distanceSquaredTo(p1), min) <= 0) {
             return p1;
           }
         }
