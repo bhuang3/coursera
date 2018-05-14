@@ -73,14 +73,22 @@ public class KdTree {
     Node node = this.root;
 
     while (node != null) {
-      if (node.point.compareTo(p) == 0) {
+      if (node.point.equals(p)) {
         return true;
       }
 
       if (node.horizontal) {
-        node = Double.compare(node.point.y(), p.y()) > 0 ? node.child2 : node.child1;
+        if (Double.compare(node.point.y(), p.y()) >= 0) {
+          node = node.child2;
+        } else {
+          node = node.child1;
+        }
       } else {
-        node = Double.compare(node.point.x(), p.x()) > 0 ? node.child1 : node.child2;
+        if (Double.compare(node.point.x(), p.x()) >= 0) {
+          node = node.child1;
+        } else {
+          node = node.child2;
+        }
       }
     }
 
@@ -247,5 +255,23 @@ public class KdTree {
       this.child1 = null;
       this.child2 = null;
     }
+  }
+
+  public static void main(String[] args) {
+    KdTree tree = new KdTree();
+
+    tree.insert(new Point2D(0.25, 0.25));
+    tree.insert(new Point2D(0.0, 1.0));
+    tree.insert(new Point2D(0.75, 0.5));
+    tree.insert(new Point2D(1.0, 0.75));
+    tree.insert(new Point2D(0.0, 0.75));
+    tree.insert(new Point2D(1.0, 0.5));
+    tree.insert(new Point2D(0.75, 0.25));
+    tree.insert(new Point2D(0.0, 0.5));
+    tree.insert(new Point2D(0.0, 0.0));
+    tree.insert(new Point2D(0.75, 0.0));
+
+    System.out.println(tree.size());
+    System.out.println(tree.contains(new Point2D(0.0, 0.0)));
   }
 }
